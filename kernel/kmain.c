@@ -9,13 +9,29 @@ void dummy_entry(){
 }
 
 void kmain(){
+	init_tty(); // initate the terminal interface
+	print("TTY intiated\n");
 
-	init_tty();
+	print("Installing IDT...\n");
 	idt_install();
+	print("IDT installed\n");
+	
+	print("Installing ISR...\n");
 	isr_install();
+	print("ISR installed\n");
+	
+	print("Installing IRQ...\n");
 	irq_install();
+	print("IRQ installed\n");
+	
+	print("Installing keyboard...\n");
 	keyboard_install();
+	print("Keyboard installed\n");
+	
+	__asm__ __volatile__ ("sti");
 
-	print("Hello World\n");
-	print("Welcome to ChaOS\n");
+	print("Core functionality installed.\n");
+	print("Welcome to ChaosOS\n");
+	print("$$: ");
+
 }
