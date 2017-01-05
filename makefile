@@ -1,7 +1,6 @@
 CC=i386-elf-gcc
 LD=i386-elf-ld
-CFLAGS=-m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector \
-       -nostartfiles -nodefaultlibs -Wextra -Werror -c -I./include
+CFLAGS=-m32 -ffreestanding -Wextra -Werror -fno-exceptions -c -I./include
 LDFLAGS=-T linker.ld -melf_i386
 AS=nasm
 ASFLAGS=-f elf
