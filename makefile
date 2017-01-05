@@ -17,7 +17,7 @@ kernel.elf: $(OBJ) boot/loader.o kernel/ixx.o
 	$(CC) $(CFLAGS) $< -o $@
 
 %.o: %.asm
-	nasm $< -f elf -o $@
+	nasm $< -f elf32 -o $@
 
 clean:
 	rm $(OBJ) kernel/ixx.o boot/loader.o kernel.elf
