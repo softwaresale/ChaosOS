@@ -3,6 +3,7 @@
 #include <irq.h>
 #include <tty.h>
 #include <kb.h>
+#include <timer.h>
 
 /* This is only a test entry point */
 void dummy_entry(){
@@ -27,11 +28,11 @@ void kmain(){
 	print("Installing keyboard...\n");
 	keyboard_install();
 	print("Keyboard installed\n");
-	
+
 	__asm__ __volatile__ ("sti");
 
 	print("Core functionality installed.\n");
 	print("Welcome to ChaosOS\n");
-	print("$$: ");
-
+	print("$$:> ");
+	
 }

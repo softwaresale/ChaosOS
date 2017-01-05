@@ -11,7 +11,7 @@ OBJ=$(SRC:.c=.o)
 all: kernel.elf
 
 kernel.elf: $(OBJ) boot/loader.o kernel/cpu/interrupt.o
-	$(LD) $(LDFLAGS) $(OBJ) boot/loader.o -o kernel.elf
+	$(LD) $(LDFLAGS) $(OBJ) boot/loader.o kernel/cpu/interrupt.o -o kernel.elf
 
 %.o: %.c
 	$(CC) $(CFLAGS) $< -o $@
