@@ -4,6 +4,7 @@
 #include <tty.h>
 #include <kb.h>
 #include <timer.h>
+#include <mem.h>
 
 /* This is only a test entry point */
 void dummy_entry(){
@@ -33,6 +34,9 @@ void kmain(){
 
 	print("Core functionality installed.\n");
 	print("Welcome to ChaosOS\n");
-	print("$$:> ");
-	
+	if (strcmp("Hello World", "Hello World") == 0){
+		char* string = "Hello World";
+		reverse(string);
+		print(string);
+	}
 }

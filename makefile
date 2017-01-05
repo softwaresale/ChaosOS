@@ -1,6 +1,6 @@
 CC=i386-elf-gcc
 LD=i386-elf-ld
-CFLAGS=-m32 -ffreestanding -Wextra -Werror -fno-exceptions -c -I./include
+CFLAGS=-m32 -ffreestanding -Wextra -Werror -std=gnu99 -c -I./include -O2
 LDFLAGS=-T linker.ld -melf_i386
 AS=nasm
 ASFLAGS=-f elf

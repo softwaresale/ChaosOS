@@ -2,7 +2,7 @@
 #include <irq.h>
 #include <tty.h>
 #include <low_io.h>
-#include <memory.h>
+#include <mem.h>
 #include <idt.h>
 
 /* Keyboard layout standard */

@@ -1,5 +1,5 @@
 #include <tty.h>
-#include <memory.h>
+#include <mem.h>
 #include <low_io.h>
 
 // terminal info variables

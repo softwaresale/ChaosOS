@@ -3,7 +3,7 @@
 
 #include <kernel.h>
 #include <low_io.h>
-#include <memory.h>
+#include <mem.h>
 
 /* Installs a handler into an irq */
 // PARAM irq     -- which irq to install in

@@ -1,7 +1,7 @@
 #ifndef IDT_H
 #define IDT_H 1
 
-#include <memory.h>
+#include <mem.h>
 #include <low_io.h>
 
 /* Struct mapping idt entry */
