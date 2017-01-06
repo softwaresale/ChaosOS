@@ -1,6 +1,6 @@
 #include <idt.h>
 #include <low_io.h>
-#include <mem.h>
+#include <memory.h>
 
 // create an idt with 256 entries
 struct idt_entry idt[256];

@@ -4,7 +4,10 @@
 #include <tty.h>
 #include <kb.h>
 #include <timer.h>
-#include <mem.h>
+#include <memory.h>
+#include <stdint.h>
+#include <stddef.h>
+#include <string.h>
 
 /* This is only a test entry point */
 void dummy_entry(){

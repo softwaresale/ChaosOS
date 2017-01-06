@@ -4,7 +4,7 @@ CFLAGS=-m32 -ffreestanding -Wextra -Werror -std=gnu99 -c -I./include -O2
 LDFLAGS=-T linker.ld -melf_i386
 AS=nasm
 ASFLAGS=-f elf
-SRC=$(wildcard kernel/*.c drivers/*.c kernel/cpu/*.c)
+SRC=$(wildcard kernel/*.c drivers/*.c kernel/cpu/*.c kernel/lib/*.c)
 OBJ=$(SRC:.c=.o)
 
 all: kernel.elf
