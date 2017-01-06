@@ -37,8 +37,5 @@ void kmain(){
 
 	print("Core functionality installed.\n");
 	print("Welcome to ChaosOS\n");
-	char* string = "Hello World ";
-	backspace(string);
-	if (strcmp(string, "Hello World") == 0)
-		print("Hello World\n");
+
 }
