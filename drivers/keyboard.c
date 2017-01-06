@@ -4,6 +4,12 @@
 #include <low_io.h>
 #include <memory.h>
 #include <idt.h>
+#include <string.h>
+#include <stddef.h>
+#include <stdint.h>
+
+/* This is for getting input from the keyboard */
+
 
 /* Keyboard layout standard */
 

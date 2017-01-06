@@ -38,7 +38,6 @@ unsigned short *memsetw(unsigned short *dest, unsigned short val, int count)
     return dest;
 }
 
-/*
 uint32_t free_mem_addr = 0x10000;
 
 uint32_t malloc(size_t size, int align, uint32_t* phys_addr){
@@ -54,4 +53,4 @@ uint32_t malloc(size_t size, int align, uint32_t* phys_addr){
 	free_mem_addr += size;
 	return ret;
 }
-*/
+

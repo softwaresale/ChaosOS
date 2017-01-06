@@ -21,7 +21,6 @@ unsigned short* memsetw(unsigned short* dest, unsigned short val, int count);
 
 // Allocates memory
 // PARAM size -- size of 
-//uint32_t malloc(size_t size, int align, uint32_t *phy_addr);
-// TODO: UNCOMMENT IF HEAP DOESNT WORK
+uint32_t malloc(size_t size, int align, uint32_t *phy_addr);
 
 #endif
