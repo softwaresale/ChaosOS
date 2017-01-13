@@ -1,4 +1,6 @@
 #include <memory.h>
+#include <stdint.h>
+#include <stddef.h>
 
 void *memcpy(void *dest, const void *src, int count)
 {
@@ -35,3 +37,20 @@ unsigned short *memsetw(unsigned short *dest, unsigned short val, int count)
         dest[i] = val;
     return dest;
 }
+
+uint32_t free_mem_addr = 0x10000;
+
+uint32_t malloc(size_t size, int align, uint32_t* phys_addr){
+
+	if (align == 1 && (free_mem_addr & 0xFFFFF000)){
+		free_mem_addr &= 0xFFFFF000;
+		free_mem_addr += 0x1000;
+	}
+
+	if (phys_addr) *phys_addr = free_mem_addr;
+
+	uint32_t ret = free_mem_addr;
+	free_mem_addr += size;
+	return ret;
+}
+

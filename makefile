@@ -4,13 +4,13 @@ CFLAGS=-m32 -ffreestanding -Wextra -Werror -std=gnu99 -c -I./include -O2
 LDFLAGS=-T linker.ld -melf_i386
 AS=nasm
 ASFLAGS=-f elf
-SRC=$(wildcard kernel/*.c drivers/*.c kernel/cpu/*.c kernel/lib/*.c)
+SRC=$(wildcard kernel/*.c drivers/*.c kernel/cpu/*.c kernel/lib/*.c kernel/memory/*.c)
 OBJ=$(SRC:.c=.o)
 
 all: kernel.elf
 
-kernel.elf: $(OBJ) boot/loader.o kernel/cpu/interrupt.o
-	$(LD) $(LDFLAGS) $(OBJ) boot/loader.o kernel/cpu/interrupt.o -o kernel.elf
+kernel.elf: $(OBJ) boot/loader.o kernel/cpu/interrupt.o kernel/memory/asmpaging.o
+	$(LD) $(LDFLAGS) $(OBJ) boot/loader.o kernel/cpu/interrupt.o kernel/memory/asmpaging.o -o kernel.elf
 
 %.o: %.c
 	$(CC) $(CFLAGS) $< -o $@
