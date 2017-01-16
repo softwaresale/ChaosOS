@@ -8,8 +8,17 @@
 #include <stddef.h>
 #include <stdint.h>
 
-/* This is for getting input from the keyboard */
+// little method for getting ACK
+void kb_ack(){
+	while(!(port_byte_get(0x60)==0xfa));
+}
 
+// used for setting caps lock led
+void kb_set_caps_led(){
+	port_byte_put(0x60, 0xed);
+	kb_ack();
+	port_byte_put(0x60, 2);
+}
 
 /* Keyboard layout standard */
 
@@ -121,9 +130,10 @@ void keyboard_handler(struct regs* r){
 		
 		// 0x3A is the caps lock key
 		if (!(scancode ^ 0x3A)){
-			if (function_key == 1)
+			if (function_key == 1){
 				function_key = 0;
-			else
+				kb_set_caps_led();
+			} else
 				function_key = 1;
 		}
 		
