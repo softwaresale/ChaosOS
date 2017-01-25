@@ -1,0 +1,12 @@
+Official TODO of ChaosOS
+
+1. Create a successful boot loader and boot with grub                [done]
+2. Create a Video driver                                             [done]
+3. Create a working Interrupt handler with IRQ, ISR, and IDT support [done]
+4. Basic keyboard driver, but no way to save keyboard input          [done]
+5. Write a basic pager                                               [done]
+6. Write a kernel heap with malloc and free                          [    ]
+7. Create basic data types like queue and stack                      [    ]
+8. Create a stream or a way to read and write input and output       [    ]
+9. Write a File system                                               [    ]
+
