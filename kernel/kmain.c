@@ -8,7 +8,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <string.h>
-
+#include <stdio.h>
 
 /* This is only a test entry point */
 void dummy_entry(){
@@ -18,26 +18,26 @@ void kmain(){
 	init_tty(); // initate the terminal interface
 	print("TTY intiated\n");
 
-	print("Installing IDT...\n");
+	puts("Installing IDT...");
 	idt_install();
-	print("IDT installed\n");
+	puts("IDT installed");
 	
-	print("Installing ISR...\n");
+	puts("Installing ISR...");
 	isr_install();
-	print("ISR installed\n");
+	puts("ISR installed");
 	
-	print("Installing IRQ...\n");
+	puts("Installing IRQ...");
 	irq_install();
-	print("IRQ installed\n");
+	puts("IRQ installed");
 	
-	print("Installing keyboard...\n");
+	puts("Installing keyboard...");
 	keyboard_install();
-	print("Keyboard installed\n");
+	puts("Keyboard installed");
 
 	__asm__ __volatile__ ("sti");
 
-	print("Core functionality installed.\n");
-	print("Welcome to ChaosOS\n");
+	puts("Core functionality installed");
+	puts("Welcome to ChaosOS");
 
 
 }
