@@ -13,6 +13,6 @@ void*
 get_physaddr(void*);
 
 void
-map_page(void*, void* unsigned int);
+map_page(void*, void*, unsigned int);
 
 #endif // PAGING_H

@@ -9,6 +9,7 @@
 #include <stddef.h>
 #include <string.h>
 #include <stdio.h>
+#include <paging.h>
 
 /* This is only a test entry point */
 void dummy_entry(){
@@ -33,6 +34,10 @@ void kmain(){
 	puts("Installing keyboard...");
 	keyboard_install();
 	puts("Keyboard installed");
+	
+	puts("Initiating paging...");
+	paging_init();
+	puts("Paging initilized");
 
 	__asm__ __volatile__ ("sti");
 
