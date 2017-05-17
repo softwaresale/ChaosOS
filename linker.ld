@@ -2,7 +2,7 @@ ENTRY(loader)
 
 SECTIONS {
 
-	. = 0x00100000;
+	. = 1M;
 	
 	.multiboot ALIGN(0x1000) :
 	{
