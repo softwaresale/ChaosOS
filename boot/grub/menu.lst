@@ -1,5 +1,5 @@
 default=0
 timeout=0
 
-title Booting ChaOS
-kernel /boot/kernel.elf
+title ChaosOS -- Testing... 
+multiboot /boot/kernel.elf
