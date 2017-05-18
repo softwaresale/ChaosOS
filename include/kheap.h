@@ -36,6 +36,9 @@ typedef struct _kheap kheap_t;
 void
 kheap_init();
 
+void
+kheap_specs();
+
 // allocates a void pointer
 void* 
 kmalloc(size_t);

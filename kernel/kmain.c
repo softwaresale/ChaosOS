@@ -43,6 +43,9 @@ void kmain(){
 	puts("Initilizing the heap...");
 	kheap_init();
 	puts("Heap initilized");
+	puts("Heap specs: \n");
+	kheap_specs();
+	puts("\n");
 
 	__asm__ __volatile__ ("sti");
 
@@ -54,4 +57,7 @@ void kmain(){
 	hex_to_ascii(*iptr, addr);
 	print("Address of pointer: ");
 	puts(addr);
+
+	puts("Specs after allocation: ");
+	kheap_specs();
 }

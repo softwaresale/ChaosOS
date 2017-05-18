@@ -2,6 +2,9 @@
 #include <paging.h>
 #include <stdint.h>
 #include <stddef.h>
+#include <tty.h>
+#include <string.h>
+#include <stdio.h>
 
 // get the end address
 extern const unsigned int end;
@@ -14,7 +17,7 @@ void
 kheap_init()
 {
 	kheap.placement_address = end_addr;
-	kheap.size = 0xFFFFFFFF - end_addr;
+	kheap.size = 0x00300000 - end_addr;
 	kheap.children = 0; // no children yet
 	kheap.childnum = 0;
 }
@@ -23,6 +26,21 @@ static inline void
 kheap_add_child(block_t* block)
 {
 	kheap.children[kheap.childnum++] = block; // add block?	
+}
+
+void
+kheap_specs()
+{
+	char pa[16];
+	char size[16];
+	
+	hex_to_ascii(kheap.placement_address, pa);
+	int_to_ascii(kheap.size, size);
+
+	print("Kheap placement address: ");
+	puts(pa);
+	print("Kheap size: ");
+	puts(size);
 }
 
 void*
