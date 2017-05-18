@@ -12,7 +12,7 @@ align 4
 kernel_stack:
 	resb KERNEL_STACK_SIZE
 
-section .text 					; start of code section
+section .multiboot 				; start of code section
 align 4						; align 4 bytes
 	dd MAGIC_NUMBER				; write the magic number to machine code
 	dd FLAGS
@@ -21,6 +21,7 @@ align 4						; align 4 bytes
 loader:
 	mov eax, 0xCAFEBABE			; loads the magic number	
 	mov esp, kernel_stack + KERNEL_STACK_SIZE
+	push ebx
 	call kmain
 
 .loop:
