@@ -28,6 +28,6 @@ SECTIONS {
 	{
 		*(COMMON)
 		*(.bss)
-		kernelend = .;
+		end = .;
 	}
 }

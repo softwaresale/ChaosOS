@@ -10,6 +10,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <paging.h>
+#include <kheap.h>
 
 /* This is only a test entry point */
 void dummy_entry(){
@@ -38,11 +39,19 @@ void kmain(){
 	puts("Initiating paging...");
 	paging_init();
 	puts("Paging initilized");
+	
+	puts("Initilizing the heap...");
+	kheap_init();
+	puts("Heap initilized");
 
 	__asm__ __volatile__ ("sti");
 
 	puts("Core functionality installed");
 	puts("Welcome to ChaosOS");
 
-
+	int* iptr = (int*) kmalloc(sizeof(int));
+	char addr[16];
+	hex_to_ascii(*iptr, addr);
+	print("Address of pointer: ");
+	puts(addr);
 }

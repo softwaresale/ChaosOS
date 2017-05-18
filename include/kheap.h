@@ -1,3 +1,4 @@
+/* This handles memory management */
 
 #ifndef KHEAP_H
 #define KHEAP_H 1
@@ -6,50 +7,41 @@
 #include <stddef.h>
 #include <paging.h>
 
-#define OFFSETOF(TYPE, MEMBER)  __builtin_offsetof (TYPE, MEMBER)
-
-typedef struct DList DList;
-
-struct DList {
-
-	DList *next;
-	DList *prev;
+/* Info about a block */
+struct _block
+{
+	uint32_t       address;    //!< Address of block in memory
+	int            used;       //!< 0 if unsed, 1 if used
+	size_t         block_size; //!< Size of the block
+	struct _block* next;       //!< Block in front of
+	struct _block* prev;       //!< Block behind
 };
 
-typedef struct _chunk {
+typedef struct _block block_t;
 
-	DList all;
-	int used;
-	union {
-		char data[0];
-		DList free;
-	}
-
-} chunk_t;
-
-enum
+/* Info about the heap encapulated */
+struct _kheap
 {
-	NUM_SIZES = 32,
-	ALIGN     = 4,
-	MIN_SIZE  = sizeof(DList),
-	HEADER_SIZE = OFFSETOF(chunk_t, data);
-}
+	uint32_t placement_address; //!< Starting address for new address
+	uint32_t size;              //!< max size of heap
+	block_t** children;         //!< List of children
+	int childnum;               //!< Number of child blocks
+};
 
-chunk_t* free_chunk[NUM_SIZES] = { NULL; }
-size_t mem_free = 0;
-size_t mem_used = 0;
-size_t mem_meta = 0;
-chunk_t* first  = NULL;
-chunk_t* last   = NULL
+typedef struct _kheap kheap_t;
 
+// functions for dealing with kheap
+
+// initiates the heap
 void
-mem_init(void* mem, size_t size);
+kheap_init();
 
+// allocates a void pointer
 void* 
-kmalloc(size_t size);
+kmalloc(size_t);
 
+// frees a pointer
 void
-kfree(void* mem);
+kfree(void*);
 
 #endif // KHEAP_H
-
