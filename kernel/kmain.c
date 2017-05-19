@@ -48,13 +48,6 @@ void kmain(){
 
 	puts("Core functionality installed");
 	puts("Welcome to ChaosOS");
+		
 	
-	char* msg = (char*) malloc(sizeof(char));
-	char addr[16];
-	hex_to_ascii(*msg, addr);
-
-	print("Pointer located at: ");
-	puts(addr);
-	
-	free(msg);
 }
