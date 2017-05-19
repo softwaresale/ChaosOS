@@ -10,7 +10,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <paging.h>
-#include <bmheap.h>
+#include <malloc.h>
 
 /* This is only a test entry point */
 void dummy_entry(){
@@ -41,32 +41,20 @@ void kmain(){
 	puts("Paging initilized");
 	
 	puts("Initilizing the heap...");
-	kheap_t heap;
-	kheap_init(&heap);
-	puts("Heap initilized");
+	malloc_init();
+	puts("Heap and memory allocation initilized");
 
 	__asm__ __volatile__ ("sti");
 
 	puts("Core functionality installed");
 	puts("Welcome to ChaosOS");
 	
-	extern const unsigned int end;
-	unsigned int end_addr = (unsigned int) &end;
-
-	kheap_add_block(&heap, (uintptr_t) end_addr, 0x100000, 16);
-
-	int* ptr = (int*) kheap_alloc(&heap, 10);
-
+	char* msg = (char*) malloc(sizeof(char));
 	char addr[16];
-	hex_to_ascii(*ptr, addr);
+	hex_to_ascii(*msg, addr);
 
-	print("Ptr located at: ");
+	print("Pointer located at: ");
 	puts(addr);
 	
-	ptr[0] = 1;
-	char intnum[16];
-	int_to_ascii(ptr[0], intnum);
-	puts(intnum);
-
-	kheap_free(&heap, (void*) ptr);
+	free(msg);
 }
