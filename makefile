@@ -43,5 +43,5 @@ iso: all
 		-o chaos.iso \
 		iso
 
-run-iso:
+run: iso
 	qemu-system-i386 -cdrom chaos.iso
