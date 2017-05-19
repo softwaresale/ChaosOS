@@ -1,7 +1,7 @@
 CC=i686-elf-gcc
 LD=i686-elf-ld
 AS=i686-elf-as
-CFLAGS=-m32 -ffreestanding -Wextra -Werror -std=gnu99 -c -I./include -O2
+CFLAGS=-m32 -ffreestanding -Wextra -std=gnu99 -c -I./include -O2
 LDFLAGS=-T linker.ld -melf_i386
 #LDFLAGS=-Ttext 0x1000 --oformat binary
 SRC=$(wildcard kernel/*.c drivers/*.c kernel/cpu/*.c kernel/lib/*.c \

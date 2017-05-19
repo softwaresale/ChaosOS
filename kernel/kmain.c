@@ -50,18 +50,23 @@ void kmain(){
 	puts("Core functionality installed");
 	puts("Welcome to ChaosOS");
 	
-	const extern unsigned int end;
+	extern const unsigned int end;
 	unsigned int end_addr = (unsigned int) &end;
 
 	kheap_add_block(&heap, (uintptr_t) end_addr, 0x100000, 16);
 
-	int* ptr = (int*) kheap_alloc(&heap, sizeof(int));
+	int* ptr = (int*) kheap_alloc(&heap, 10);
 
 	char addr[16];
 	hex_to_ascii(*ptr, addr);
 
 	print("Ptr located at: ");
 	puts(addr);
+	
+	ptr[0] = 1;
+	char intnum[16];
+	int_to_ascii(ptr[0], intnum);
+	puts(intnum);
 
-	kheap_free((void*) ptr);
+	kheap_free(&heap, (void*) ptr);
 }

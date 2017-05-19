@@ -5,7 +5,7 @@
 
 #define uint32 uint32_t
 #define uint8 uint8_t
-#define intptr intptr_t
+#define uintptr intptr_t
 	
 void 
 kheap_init(kheap_t *heap) {
@@ -123,7 +123,7 @@ kheap_free(kheap_t *heap, void *ptr) {
 	uint32	max;
  
 	for (b = heap->fblock; b; b = b->next) {
-		if ((uintptr)ptr > (uintptr)b && (uintptr)ptr < (uintptr)b + sizeof(block_t) + b->size) {
+		if ((uintptr)ptr > (uintptr)b && (uintptr)ptr < ((uintptr)b + sizeof(block_t) + b->size)) {
 			/* found block */
 			ptroff = (uintptr)ptr - (uintptr)&b[1];  /* get offset to get block */
 			/* block offset in BM */
