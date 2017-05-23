@@ -37,9 +37,8 @@ void timer_handler(struct regs* r){
 }
 
 void timer_install(){
-
+	
 	irq_install_handler(0, timer_handler); // install timer handler into irq0
-
 }
 
 
