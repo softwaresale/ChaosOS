@@ -5,7 +5,7 @@
 #include <tty.h>
 
 // keeps track of how many ticks the system has been running for
-unsigned int timer_ticks = 0;
+volatile unsigned int timer_ticks = 0;
 
 // see header file for info
 void timer_wait(int ticks){
