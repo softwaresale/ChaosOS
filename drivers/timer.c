@@ -31,13 +31,12 @@ void timer_handler(struct regs* r){
 	timer_ticks++;
 
 	// extery 18 clocks (about 1 sec), we will display a message on the screen
-	if (timer_ticks % 18 == 0)
-		print("One second has passed\n");
 
 }
 
 void timer_install(){
 	
+	timer_phase(1000);
 	irq_install_handler(0, timer_handler); // install timer handler into irq0
 }
 
