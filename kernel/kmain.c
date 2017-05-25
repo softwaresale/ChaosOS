@@ -49,5 +49,5 @@ void kmain(){
 	puts("Core functionality installed");
 	puts("Welcome to ChaosOS");
 		
-	
+	printf("This should be zero: --> %d\n", 1);	
 }

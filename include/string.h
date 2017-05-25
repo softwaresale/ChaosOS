@@ -30,4 +30,12 @@ void append(char str[], char ch);
 // compared two strings. if 1 == 2, ret 0; if 1 > 2, ret 1, if 1 < 2, ret -1
 int strcmp(char str1[], char str2[]);
 
+int isspace(char c);
+
+void 
+itoa(char* buf, unsigned long int n, int base);
+
+int 
+atoi(char* string);
+
 #endif

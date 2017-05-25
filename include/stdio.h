@@ -4,4 +4,7 @@
 // TODO: implement all the rest of the functions
 void puts(const char* str);
 
+void
+printf(const char* s, ...);
+
 #endif
