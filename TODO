@@ -6,7 +6,9 @@ Official TODO of ChaosOS
 [done] *.  Basic keyboard driver, but no way to save keyboard input
 [done] *.  Write a basic pager
 [done] *.  Write a kernel heap with malloc and free
-[    ] *.  Set up PIC driver
 [    ] *.  Write ATA driver using asm and C (PIO and R/W sectors)
+[    ] *.  Implement a memory file system
+[    ] *.  Implement an EXT2 fs
 [    ] *.  Implement AHCI driver
+[    ] *.  Set up PIC driver
 [    ] *.  Rewrite pager and implement basic page frame allocater
