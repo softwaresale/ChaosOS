@@ -1,13 +1,12 @@
 Official TODO of ChaosOS
 
-[done] 1.  Create a successful boot loader and boot with grub
-[done] 2.  Create a Video driver
-[done] 3.  Create a working Interrupt handler with IRQ, ISR, and IDT support
-[done] 4.  Basic keyboard driver, but no way to save keyboard input
-[done] 5.  Write a basic pager
-[done] 6.  Write a kernel heap with malloc and free
-[    ] 7.  Rewrite pager and implement basic page frame allocater
-[    ] 8.  Set up PIC driver
-[    ] 9.  Write ATA driver using asm and C (PIO and R/W sectors)
-[    ] 10. Implement AHCI driver
-[    ] 11. 
+[done] *.  Create a successful boot loader and boot with grub
+[done] *.  Create a Video driver
+[done] *.  Create a working Interrupt handler with IRQ, ISR, and IDT support
+[done] *.  Basic keyboard driver, but no way to save keyboard input
+[done] *.  Write a basic pager
+[done] *.  Write a kernel heap with malloc and free
+[    ] *.  Set up PIC driver
+[    ] *.  Write ATA driver using asm and C (PIO and R/W sectors)
+[    ] *.  Implement AHCI driver
+[    ] *.  Rewrite pager and implement basic page frame allocater

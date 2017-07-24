@@ -1,0 +1,6 @@
+default=0
+timeout=0
+
+title ChaosOS -- Testing... 
+kernel /boot/kernel.elf
+boot
