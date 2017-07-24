@@ -16,7 +16,8 @@
 void dummy_entry(){
 }
 
-void kmain(){
+void kmain()
+{
 	init_tty(); // initate the terminal interface
 	print("TTY intiated\n");
 
