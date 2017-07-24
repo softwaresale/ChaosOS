@@ -1,0 +1,12 @@
+
+#include <ata.h>
+#include <low_io.h>
+#include <malloc.h>
+#include <string.h>
+
+ata_drive_t
+ata_new(ata_types_t type)
+{
+        ata_drive_t tmp;
+
+}

@@ -45,6 +45,7 @@
 #define ATA_WRITE        0x30
 #define ATA_READ         0x20
 #define ATA_CACHE_FLUSH  0xE7
+#define ATA_ID_DEV       0xEC
 
 #define SECTOR_SIZE      512
 
@@ -68,10 +69,21 @@ typedef enum _ata_types_t
 
 typedef struct _ata_drive_t
 {
-        dev_types_t  type;      // type of drive (using ATA as default for now)
-        unsigned int base_addr; // base address of drive (ATA1 OR ATA2)
-        unsigned int status;    // status byte
-        char*        buffer;    // buffer for reading data into
+        dev_types_t   type;       // type of drive (using ATA as default for now)
+        unsigned int  base_addr;  // base address of drive (ATA1 OR ATA2)
+        unsigned int  status;     // status byte
+        unsigned char select_bit; // 0xe0 or 0xf0
+        char*         buffer;     // buffer for reading data into
+
+        // port offsets
+        unsigned int data_port;
+        unsigned int err_feats;
+        unsigned int sect_ct;
+        unsigned int lba_lo;
+        unsigned int lba_mid;
+        unsigned int lba_hi;
+        unsigned int drive_head;
+        unsigned int cmd_status;
 
 } ata_drive_t;
 
@@ -84,7 +96,7 @@ ata_new(ata_types_t);
  * ata_drive_t* -- drive to read from
  * int -- lba
  * int -- number of sectors to read */
-void
+int
 ata_read(ata_drive_t*, uint32_t, unsigned int);
 
 /* Writes data to ATA
@@ -94,7 +106,7 @@ ata_read(ata_drive_t*, uint32_t, unsigned int);
    int -- size
    char* -- buffer to write
  */
-void
+int
 ata_write(ata_drive_t*, uint32_t, unsigned int, char*);
 
 #endif // ATA_H
