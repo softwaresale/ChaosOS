@@ -19,10 +19,9 @@ void timer_wait(int ticks){
 void timer_phase(int hz){
 
 	int divisor = 1193180 / hz;          // calculate divisor
-	port_byte_put(0x43, 0x36);           // Set command byte to 0x36
-	port_byte_put(0x40, divisor & 0xFF); // set low byte of divisor
-	port_byte_put(0x40, divisor >> 8);   // set high byte of divisor
-
+	outb(0x43, 0x36);           // Set command byte to 0x36
+	outb(0x40, divisor & 0xFF); // set low byte of divisor
+	outb(0x40, divisor >> 8);   // set high byte of divisor
 }
 
 void timer_handler(struct regs* r){

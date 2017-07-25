@@ -10,7 +10,7 @@
 
 // little method for getting ACK
 void kb_ack(){
-	while(!(port_byte_get(0x60)==0xfa));
+	while(!(inb(0x60)==0xfa));
 }
 
 // used for setting caps lock led
@@ -113,7 +113,7 @@ void keyboard_handler(struct regs* r){
 	unsigned char scancode; // what is read, or what will be rather
 
 	// read the scancode
-	scancode = port_byte_get(0x60);
+	scancode = inb(0x60);
 	
 	// if the top bit is set, then it has been released
 	if (scancode & 0x80){

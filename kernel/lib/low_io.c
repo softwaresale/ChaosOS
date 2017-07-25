@@ -1,28 +1,44 @@
 #include <low_io.h>
+#include <stdint.h>
 
 /* Defining functions. See low-io.h for func description */
 
-unsigned char port_byte_get(unsigned short port){
+uint8_t inline inb(uint16_t port){
 
     // handy little assembly wrapper
 
-    unsigned char result;
-    __asm__("in %%dx, %%al" : "=a" (result) : "d" (port));
+    uint8_t result;
+    asm volatile ("in %%dx, %%al" : "=a" (result) : "d" (port));
     return result;
 }
 
-void port_byte_put(unsigned short port, unsigned char data){
-    __asm__("out %%al, %%dx" : : "a" (data), "d" (port));
+void inline outb(uint16_t port, uint8_t data){
+    asm volatile ("out %%al, %%dx" : : "a" (data), "d" (port));
 }
 
-unsigned short port_word_get(unsigned short port){
+uint16_t inline inw(uint16_t port){
 
-    unsigned short result;
-	__asm__("in %%dx, %%ax" : "=a" (result) : "d" (port));
+    uint16_t result;
+	asm volatile ("in %%dx, %%ax" : "=a" (result) : "d" (port));
 	return result;
 
 }
 
-void port_word_put(unsigned short port, unsigned short data){
-    __asm__("out %%ax, %%dx" : :"a" (data), "d" (port));
+void inline outw(uint16_t port, uint16_t data){
+    asm volatile ("out %%ax, %%dx" : :"a" (data), "d" (port));
+}
+
+uint32_t inline inl(uint16_t port){
+    uint32_t ret;
+    asm volatile ("in %%dx, %%al" : "=a" (ret) : "d" (port));
+    return ret;
+}
+
+void inline outl(uint16_t port, uint32_t data){
+    asm volatile ("out %%al, %%dx" : : "a"(data), "d"(port));
+}
+
+void inline insl(uint16_t port, unsigned int buffer, unsigned int count)
+{
+    asm volatile ("cld; rep; insl" :: "D" (buffer), "d" (port), "c" (count));
 }

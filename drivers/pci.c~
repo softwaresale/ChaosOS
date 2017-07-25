@@ -1,0 +1,30 @@
+
+#include <stdint.h>
+#include <printf.h>
+#include <low_io.h>
+#include <pci.h>
+
+// defined in pci.h
+channel_t channels[2];
+ide_dev_t devices[4];
+
+inline ide_buf_t
+new_buf()
+{
+        ide_buf_t buf = {0};
+        return buf;
+}
+
+inline atapi_packet_t
+new_atapi_packet()
+{
+        atapi_packet_t pack = {0xA8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        return pack;
+}
+
+
+unsigned char
+ide_read(ide_dev_t* dev)
+{
+
+}

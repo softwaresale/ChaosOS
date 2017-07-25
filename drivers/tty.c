@@ -17,10 +17,10 @@ void move_cursor(){
 	unsigned short index = get_offset(tty_x, tty_y);
 	
 	// sends command to move cursor
-	port_byte_put(CTRL_REG, 14);
-	port_byte_put(DATA_REG, index >> 8);
-	port_byte_put(CTRL_REG, 15);
-	port_byte_put(DATA_REG, index);
+	outb(CTRL_REG, 14);
+	outb(DATA_REG, index >> 8);
+	outb(CTRL_REG, 15);
+	outb(DATA_REG, index);
 }
 
 // clears the screen
