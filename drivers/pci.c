@@ -4,10 +4,7 @@
 #include <low_io.h>
 #include <pci.h>
 #include <malloc.h>
-
-// defined in pci.h
-channel_t channels[2];
-ide_dev_t devices[4];
+#include <timer.h>
 
 inline ide_buf_t
 new_buf()
@@ -151,7 +148,36 @@ __pci_init(unsigned int bar0, unsigned int bar1, unsigned int bar2, unsigned int
 
         int i, j, count = 0;
         for (i = 0; i < 2; i++){
-                for (j = 0; j < 2;)
+                for (j = 0; j < 2;){
+
+                        unsigned char err  = 0;
+                        unsigned char type = ATA;
+                        unsigned char status;
+
+                        // select drive
+                        ide_dev_t* tmp_dev = NULL;
+                        tmp_dev = devices[0];
+
+                        // assume that it will be a dud
+                        tmp_dev->reserved = 0;
+
+                        // select drive
+                        ide_write(channels[i], 0x06, 0xA0 | (j << 4));
+                        timer_wait(1);
+
+                        // identify drive
+                        ide_write(channels[i], STATUS_CMD, ATA_ID_DEV);
+                        timer_wait(1);
+
+                        // wait until ready
+                        if(ide_read(channels[i], STATUS_CMD) == 0) continue; // if status == 0, no devices
+
+                        while(1){
+                                status = ide_read(channels[i], STATUS_CMD);
+
+                        }
+
+                }
         }
 
 }
