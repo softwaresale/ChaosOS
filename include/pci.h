@@ -38,8 +38,8 @@
 #define ATA1_CTRL_DRIVE_PRT (ATA1_CTRL + 6)  // Select a drive or head
 #define ATA1_CTRL_CMD_STAT  (ATA1_CTRL + 7)  // Write commands or get the current status
 
-#define ATA2           (0x170   )
-#define ATA2_DATA      (ATA2    )
+#define ATA2           (0x170)
+#define ATA2_DATA      (ATA2)
 #define ATA2_FEAT_ERR  (ATA2 + 1)
 #define ATA2_SECT_CT   (ATA2 + 2)
 #define ATA2_LBA_LO    (ATA2 + 3)
@@ -76,7 +76,10 @@
 #define SLAVE                0xF0
 #define ATA_PIO_WRITE        0x30
 #define ATA_PIO_READ         0x20
+#define ATA_PIO_READ_EXT     0x24
+#define ATA_PIO_WRITE_EXT    0x34
 #define ATA_CACHE_FLUSH      0xE7
+#define ATA_CACHE_FLUSH_EXT  0xEA
 #define ATA_ID_DEV           0xEC
 #define ATA_PACKET           0xA0
 #define ATA_ID_PACKET        0xA1
@@ -134,19 +137,6 @@
 
 /* Macro Functions */
 // macro function for 400ns delay
-#define DELAY(x) (for (int i = 0; i < 5; i++){ inb(ATA1_CMD_STAT); })
-
-static uint64_t
-swap_endian(uint64_t val)
-{
-        uint64_t x = val;
-
-        x = (x & 0x00000000FFFFFFFF) << 32 | (x & 0xFFFFFFFF00000000) >> 32;
-        x = (x & 0x0000FFFF0000FFFF) << 16 | (x & 0xFFFF0000FFFF0000) >> 16;
-        x = (x & 0x00FF00FF00FF00FF) << 8  | (x & 0xFF00FF00FF00FF00) >> 8;
-
-        return x;
-}
 
 typedef struct _channel_t
 {
@@ -154,6 +144,7 @@ typedef struct _channel_t
         unsigned short ctrl;  // Control base address
         unsigned short bmide; // bus master id
         unsigned char  nein;  // no interrupt
+
 } channel_t;
 
 
@@ -161,9 +152,10 @@ typedef struct _ide_device_t
 {
         //                            0             1
         unsigned char  reserved;  // flag ( drive exists)
-        unsigned char  channel;   // primary or secondary
+        struct _ide_device_t*     channel;   // pointer to channel
         unsigned char  base_addr; // base address
         unsigned char  ctrl_addr; // controll address
+        unsigned char  nein;      // nein
         unsigned char  bmide;     // bus master id
         unsigned char  drive;     // master  or slave drive
         unsigned short type;      // ATA          ATAPI
@@ -175,88 +167,28 @@ typedef struct _ide_device_t
 
 } ide_dev_t;
 
-/*
-  Note that ide_dev_t contains more information needed, so some info must
-  be set to NULL if not used and checked upon usage
- */
-
-typedef union _ide_dev_id_t
-{
-        struct {
-
-                struct {
-                        unsigned int vend_id         : 16;
-                        unsigned int dev_id          : 16;
-                } block_one;
-
-                struct {
-                        unsigned int cmd             : 16;
-                        unsigned int status          : 16;
-                } block_two;
-
-                struct {
-                        unsigned char revision_id     : 8;
-                        unsigned char prog_if         : 8;
-                        unsigned char subclass        : 8;
-                        unsigned char class           : 8;
-                } block_three;
-
-                struct {
-                        unsigned char cache_line_size : 8;
-                        unsigned char latency_time    : 8;
-                        unsigned char header_type     : 8;
-                        unsigned char bist            : 8;
-                } block_three;
-
-                unsigned int bar0                     : 32;
-                unsigned int bar1                     : 32;
-                unsigned int bar2                     : 32;
-                unsigned int bar3                     : 32;
-                unsigned int bar4                     : 32;
-                unsigned int bar5                     : 32;
-                unsigned int cardbus_ptr              : 32;
-
-                struct {
-                        unsigned int subsys_vend_id   : 16;
-                        unsigned int subsys_id        : 16;
-                } block_four;
-
-                unsigned int  expansion_rom_addr      : 32;
-                unsigned char capabilities            :  8;
-                unsigned int  reserved                : 56;
-
-                struct {
-                        unsigned char interrupt_line  : 8;
-                        unsigned char interrupt_pin   : 8;
-                        unsigned char min_grant       : 8;
-                        unsigned char max_latency     : 8;
-                } block_five;
-
-        } base_id;
-
-} ide_dev_id_t;
-
-// four available devices
-extern ide_dev_t devices[4];
-
 // Type for standard ide buffer and function for creation
-typedef unsigned char ide_buf_t[2048];
+//typedef unsigned char ide_buf_t[2048];
 
-ide_buf_t
-new_buf();
+//ide_buf_t
+//new_buf();
 
 // type and function for creating a new atapi packet
-typedef unsigned char atapi_packet_t[12];
+//typedef unsigned char atapi_packet_t[12];
 
-atapi_packet_t
-new_atapi_packet();
+//atapi_packet_t
+//new_atapi_packet();
 
 /* Function Decls begin */
 
 
 ide_dev_t*
-new_ide_device(unsigned int bar0, unsigned int bar1, unsigned int bar2,
-               unsigned int bar3, unsigned int bar4);
+new_ide_channel(unsigned int bar0, unsigned int bar1, unsigned int bar2,
+                unsigned int bar3, unsigned int bar4, unsigned char);
+
+ide_dev_t*
+new_ide_device(ide_dev_t* channel, unsigned char type,
+               unsigned char master, unsigned int* buffer);
 
 unsigned char
 ide_read(ide_dev_t*, uint8_t);
@@ -270,6 +202,20 @@ ide_read_buf(ide_dev_t*, uint8_t, unsigned int, unsigned int);
 
 unsigned char
 ide_poll(ide_dev_t*, unsigned int);
+
+unsigned char
+ide_ata_access(ide_dev_t*, unsigned char, unsigned int, unsigned char, unsigned short, unsigned int);
+
+void
+ide_read_sectors(ide_dev_t*, unsigned char, unsigned int,
+                 unsigned short, unsigned int);
+
+void
+ide_write_sectors(ide_dev_t*, unsigned char, unsigned int,
+                  unsigned short, unsigned int);
+
+unsigned char
+ide_print_error(ide_dev_t*, unsigned char);
 
 void
 pci_init();

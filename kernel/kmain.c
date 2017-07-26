@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <paging.h>
 #include <malloc.h>
+#include <pci.h>
 
 /* This is only a test entry point */
 void dummy_entry(){
@@ -44,6 +45,10 @@ void kmain()
 	puts("Initilizing the heap...");
 	malloc_init();
 	puts("Heap and memory allocation initilized");
+	
+	puts("Initilizing PCI...");
+	pci_init();
+	puts("PCI initilized");
 
 	__asm__ __volatile__ ("sti");
 
