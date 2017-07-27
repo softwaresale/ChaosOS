@@ -37,23 +37,25 @@ void kmain()
 	puts("Installing keyboard...");
 	keyboard_install();
 	puts("Keyboard installed");
-	
-	puts("Initiating paging...");
-	paging_init();
-	puts("Paging initilized");
-	
-	puts("Initilizing the heap...");
-	malloc_init();
-	puts("Heap and memory allocation initilized");
-	
-	puts("Initilizing PCI...");
-	pci_init();
-	puts("PCI initilized");
+
+	puts("Installing timer...");
+	timer_install();
+	puts("Timer installed");
 
 	__asm__ __volatile__ ("sti");
 
+	puts("Initiating paging...");
+	paging_init();
+	puts("Paging initilized");
+
+	puts("Initilizing the heap...");
+	malloc_init();
+	puts("Heap and memory allocation initilized");
+
+	puts("Initilizing PCI...");
+	pci_init();
+
 	puts("Core functionality installed");
 	puts("Welcome to ChaosOS");
-		
-	printf("This should be zero: --> %d\n", 1);	
+
 }

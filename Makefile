@@ -27,7 +27,8 @@ kernel.elf: $(OBJ) $(ASMOBJ) $(ASOBJ)
 	$(AS) $< -o $@
 
 clean:
-	rm $(OBJ) $(ASMOBJ) kernel.elf
+	rm $(OBJ) $(ASMOBJ) kernel.elf boot/kernel.elf
+	rm -r iso
 
 iso: all
 	cp kernel.elf boot
@@ -44,4 +45,4 @@ iso: all
 		iso
 
 run: iso
-	qemu-system-i386 -cdrom chaos.iso
+	qemu-system-i386 -cdrom chaos.iso -hda MACHINE_HDD.img

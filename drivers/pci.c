@@ -184,20 +184,34 @@ ide_poll(ide_dev_t* dev, unsigned int check)
 ide_dev_t* channels[2]; // two channels
 ide_dev_t* devices[4];  // accept 4 devices
 
+static int ctr = 0;
+static void
+__show()
+{
+        printf("%d\n", ctr++);
+}
+
 static void
 __pci_init(unsigned int bar0, unsigned int bar1, unsigned int bar2, unsigned int bar3, unsigned int bar4)
 {
+         // 0
         // populate devices
         channels[ATA_PRIMARY  ] = new_ide_channel(bar0, bar1, bar2, bar3, bar4, ATA_PRIMARY);
+
+         // 1
         channels[ATA_SECONDARY] = new_ide_channel(bar0, bar1, bar2, bar3, bar4, ATA_SECONDARY);
 
         // disable IRQ
+         // 2
         ide_write(channels[ATA_PRIMARY]  , 0x0C, 2); // write to control register
+
+         //3
         ide_write(channels[ATA_SECONDARY], 0x0C, 2);
 
+         //4
         int i, j, count = 0;
         for (i = 0; i < 2; i++){
-                for (j = 0; j < 2;){
+                for (j = 0; j < 2; j++){
 
                         unsigned char err  = 0;
                         unsigned char type = ATA;
@@ -211,20 +225,23 @@ __pci_init(unsigned int bar0, unsigned int bar1, unsigned int bar2, unsigned int
                         tmp_dev->reserved = 0;
 
                         // select drive
+                         //5
                         ide_write(channels[i], 0x06, 0xA0 | (j << 4));
-                        timer_wait(1);
+
 
                         // identify drive
+                         //6
                         ide_write(channels[i], STATUS_CMD, ATA_ID_DEV);
                         timer_wait(1);
 
+                         //7
                         // wait until ready
                         if(ide_read(channels[i], STATUS_CMD) == 0) continue; // if status == 0, no devices
 
                         while(1){
                                 status = ide_read(channels[i], STATUS_CMD);
-                                if ((status & ERR)) {err = 1; break; } // error encountered
-                                if (!(status & BSY) && (status % DRQ)) break; // all good
+                                if ((status & 0x01)) {err = 1; break; } // error encountered
+                                if (!(status & 0x80) && (status & 0x08)) break; // all good
                         }
 
                         // probe for ATAPI
@@ -254,15 +271,24 @@ __pci_init(unsigned int bar0, unsigned int bar1, unsigned int bar2, unsigned int
                 } // for (j = 0...)
         } // for (i = 0...)
 
+        int devices_found = 0;
+
         for (i = 0; i < 4; i++){
                 // if drive exists
-                if (devices[i]->reserved == 1){
+                ide_dev_t* tmp = devices[i];
+                if (tmp->reserved == 1){
                         printf("Found Drive Type: %s (%dGB) -- %s\n",
-                               (const char*[]){"ATA", "ATAPI"}[devices[i]->type],
-                               devices[i]->size / 1024 / 1024 / 2,
-                               devices[i]->model);
+                               (const char*[]){"ATA", "ATAPI"}[tmp->type],
+                               tmp->size / 1024 / 1024 / 2,
+                               tmp->model);
+                        devices_found = 1;
                 }
         }
+
+        if (!devices_found)
+                printf("PCI: NO DEVICES FOUND\n");
+        else
+                printf("PCI initilized\n");
 
 } // __pci_init
 
