@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <paging.h>
 #include <malloc.h>
+#include <pci.h>
 
 /* This is only a test entry point */
 void dummy_entry(){
@@ -36,7 +37,11 @@ void kmain()
 	puts("Installing keyboard...");
 	keyboard_install();
 	puts("Keyboard installed");
-	
+
+	puts("Installing timer...");
+	timer_install();
+	puts("Timer installed...");
+
 	puts("Initiating paging...");
 	paging_init();
 	puts("Paging initilized");
@@ -47,8 +52,9 @@ void kmain()
 
 	__asm__ __volatile__ ("sti");
 
+	puts("Installing PCI...");
+	pci_init();
+
 	puts("Core functionality installed");
 	puts("Welcome to ChaosOS");
-		
-	printf("This should be zero: --> %d\n", 1);	
 }

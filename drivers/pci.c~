@@ -1,0 +1,20 @@
+
+#include <pci.h>
+#include <stdio.h>
+#include <stdint.h>
+#include <low_io.h>
+
+// static variables
+uint32_t pci_size_map[100]; // array of pci size?
+pci_dev_t dev_zero = {0};   // empty pci device
+
+/*  Start defining functions */
+uint32_t
+pci_read(pci_dev_t dev, uint32_t field)
+{
+        // most significant 6 bytes
+        dev.reg_num = (filed & 0xFC) >> 2;
+
+        dev.enable = 1; // enable device
+
+}
