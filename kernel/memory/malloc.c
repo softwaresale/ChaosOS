@@ -3,6 +3,7 @@
 #include <bmheap.h>
 #include <stdint.h>
 #include <stddef.h>
+#include <memory.h>
 
 // declaration of global variable
 kheap_t kernel_heap;
@@ -20,6 +21,14 @@ void*
 malloc(uint32_t size)
 {
 	return kheap_alloc(&kernel_heap, size);
+}
+
+void*
+calloc(uint32_t items, uint32_t size)
+{
+	void* ptr = malloc(items * size);
+    memset(ptr, 0, items * size);
+	return ptr;
 }
 
 void
