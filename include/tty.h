@@ -21,4 +21,7 @@ void printchar(const char ch);
 void print(const char* str);
 void init_tty();
 
+void go_back(int);
+void go_forward(int);
+
 #endif

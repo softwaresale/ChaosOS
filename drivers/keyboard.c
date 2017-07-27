@@ -10,14 +10,14 @@
 
 // little method for getting ACK
 void kb_ack(){
-	while(!(port_byte_get(0x60)==0xfa));
+	while(!(inb(0x60)==0xfa));
 }
 
 // used for setting caps lock led
 void kb_set_caps_led(){
-	port_byte_put(0x60, 0xed);
+	outb(0x60, 0xed);
 	kb_ack();
-	port_byte_put(0x60, 2);
+	outb(0x60, 2);
 }
 
 /* Keyboard layout standard */
@@ -113,7 +113,7 @@ void keyboard_handler(struct regs* r){
 	unsigned char scancode; // what is read, or what will be rather
 
 	// read the scancode
-	scancode = port_byte_get(0x60);
+	scancode = inb(0x60);
 	
 	// if the top bit is set, then it has been released
 	if (scancode & 0x80){
@@ -144,6 +144,15 @@ void keyboard_handler(struct regs* r){
 			else
 				function_key = 1;
 		}
+
+        // handle left arrow keys
+        if (!(scancode ^ 0xE0) || !(scancode ^ 0x4B)){
+            go_back(1);
+        }
+
+        if (!(scancode ^ 0xE0) || !(scancode ^ 0x4D)){
+            go_foreward(1);
+        }
 
 		if (function_key == 1)
 			printchar(kbdus_functkey[scancode]); // print the char
