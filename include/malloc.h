@@ -21,6 +21,9 @@ malloc_init();
 void*
 malloc(uint32_t);
 
+void*
+calloc(uint32_t, uint32_t);
+
 void
 free(void* ptr);
 

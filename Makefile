@@ -5,7 +5,7 @@ CFLAGS=-m32 -ffreestanding -Wextra -std=gnu99 -c -I./include -O2
 LDFLAGS=-T linker.ld -melf_i386
 #LDFLAGS=-Ttext 0x1000 --oformat binary
 SRC=$(wildcard kernel/*.c drivers/*.c kernel/cpu/*.c kernel/lib/*.c \
-    kernel/memory/*.c kernel/arch/*.c kernel/arch/cpu/*.c)
+    kernel/memory/*.c kernel/arch/*.c kernel/arch/cpu/*.c kernel/fs/*.c)
 ASMSRC=$(wildcard boot/*.asm kernel/arch/cpu/*.asm kernel/memory/*.asm)
 ASSRC=$(wildcard kernel/arch/*.s)
 OBJ=$(SRC:.c=.o)
