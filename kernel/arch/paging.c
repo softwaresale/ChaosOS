@@ -1,62 +1,57 @@
+
 #include <paging.h>
 #include <stdint.h>
+#include <stdio.h>
+#include <memory.h>
+#include <string.h>
+#include <kernel.h>
 
-uint32_t page_directory[1024] __attribute__((aligned(4096)));
-uint32_t page_table[1024] __attribute__((aligned(4096)));
+uint8_t* temp_mem;
+int paging_enable = 0;
 
-extern void 
-loadPageDirectory(unsigned int*);
+page_directory_t* kpage_dir;
 
-extern void 
-enablePaging();
-
-void
-paging_init()
+void*
+virtual2phys(page_directory_t* dir, void* virt_addr)
 {
-	
-	// set all page directory entrys
-	for (int i = 0; i < 1024; i++)
-		page_directory[i] = 0x00000002;
-	
-	// set up page table
-	for (unsigned int ii = 0; ii < 1024; ii++)
-		page_table[ii] = (ii * 0x1000) | 3;
-	
-	// add the page table to the page directory
-	page_directory[0] = ((unsigned int)page_table) | 3;
-	
-	loadPageDirectory((unsigned int*)page_directory);
-	enablePaging();
+        if(!paging_enable)
+                return (void*)(virt_addr - 0xC0000000);
 
+        uint32_t page_dir_idx = PAGEDIR_INDEX(virt_addr);
+        uint32_t page_tbl_idx = PAGETBL_INDEX(virt_addr);
+        uint32_t page_frm_offset = PAGEFRAME_INDEX(virt_addr);
+
+        if (!dir->ref_tables[page_dir_idx]){
+                printf("virtual2phys: page dir entry does not exist\n");
+                return NULL;
+        }
+
+        page_table_t* table = dir->ref_tables[page_dir_idx];
+        if(!table->pages[page_tbl_idx].present){
+                printf("virtual2phys: age table entry does not exists\n");
+                return NULL;
+        }
+
+        uint32_t t = table->pages[page_tbl_idx].frame;
+        t = (t << 12) + page_frm_offset;
+        return (void*) t;
 }
 
 void*
-get_physaddr(void* virtualaddr)
+dumb_malloc(uint32_t size, int align)
 {
-	// get directory and table index
-	unsigned long pdindex = (unsigned long) virtualaddr >> 22;
-	unsigned long ptindex = (unsigned long) virtualaddr >> 22 & 0x03FF;
-	
-	// get both page table and directory
-	unsigned long* pd = (unsigned long*) 0xFFFFF000;
-	unsigned long* pt = ((unsigned long*)0xFFC00000) + (0x400 * pdindex);
-	
-	return (void*) ((pt[ptindex] & ~0xFFF) + ((unsigned long)virtualaddr & 0xFFF));
+        void* ret = temp_mem;
+
+        if(align && !IS_ALIGN(ret))
+                ret = (void*) PAGE_ALIGN(ret);
+
+        temp_mem += size;
+        return ret;
 }
 
 void
-map_page(void* physaddr, void* virtualaddr, unsigned int flags)
+allocate_region(page_directory_t* dir, uint32_t start_va, uint32_t end_va,
+                int iden_mpa, int is_kernel, int is_writable)
 {
 
-	// get directory and table index
-        unsigned long pdindex = (unsigned long) virtualaddr >> 22;
-        unsigned long ptindex = (unsigned long) virtualaddr >> 22 & 0x03FF;
- 
-        // get both page table and directory
-        unsigned long* pd = (unsigned long*) 0xFFFFF000;
-        unsigned long* pt = ((unsigned long*)0xFFC00000) + (0x400 * pdindex);
-
-	pt[ptindex] = ((unsigned long)physaddr) | (flags & 0xFFF) | 0x01; // present
 }
-
-

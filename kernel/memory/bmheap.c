@@ -6,7 +6,9 @@
 #define uint32 uint32_t
 #define uint8 uint8_t
 #define uintptr intptr_t
-	
+
+page_directory_t* kpage_dir;
+
 void 
 kheap_init(kheap_t *heap) {
 	heap->fblock = 0;
@@ -56,7 +58,7 @@ kheap_get_nid(uint8_t a, uint8_t b) {
 }
  
 void*
-kheap_alloc(kheap_t *heap, uint32_t size) {
+kheap_alloc(kheap_t *heap, uint32_t size, int align, void* phys) {
 	block_t	 *b;
 	uint8_t	 *bm;
 	uint32_t  bcnt;
@@ -98,8 +100,24 @@ kheap_alloc(kheap_t *heap, uint32_t size) {
  
 						/* count used blocks NOT bytes */
 						b->used += y;
- 
-						return (void*)(x * b->bsize + (uintptr)&b[1]);
+
+						uint32_t addr = x * b->bsize + (uintptr) &b[1];
+
+						// add alignment and/or physical abilities
+						uint32_t align_addr = (addr & 0xFFFFF000) + 0x1000;
+
+						if (phys != 0){
+							uint32_t t = addr;
+							if(align)
+								t = align_addr;
+							*phys = (void*) virtual2phys(kpage_dir, (void*) t);
+						}
+
+						if (align)
+							return align_addr;
+
+						return addr;
+
 					}
  
 					/* x will be incremented by one ONCE more in our FOR loop */

@@ -22,6 +22,15 @@ void*
 malloc(uint32_t);
 
 void*
+malloc_a(uint32_t);
+
+void*
+malloc_p(uint32_t, void*);
+
+void*
+malloc_ap(uint32_t, void*);
+
+void*
 calloc(uint32_t, uint32_t);
 
 void

@@ -34,7 +34,7 @@ static uint8_t
 kheap_get_nid(uint8_t a, uint8_t b);
 
 void*
-kheap_alloc(kheap_t *heap, uint32_t size);
+kheap_alloc(kheap_t *heap, uint32_t size, int, void*);
 
 void 
 kheap_free(kheap_t *heap, void *ptr);
