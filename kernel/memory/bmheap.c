@@ -9,6 +9,8 @@
 
 page_directory_t* kpage_dir;
 
+extern uint32_t heap_start;
+
 void 
 kheap_init(kheap_t *heap) {
 	heap->fblock = 0;
@@ -21,7 +23,9 @@ kheap_add_block(kheap_t *heap, uintptr_t addr,
 	uint32_t bcnt;
 	uint32_t x;
 	uint8_t  *bm;
- 
+
+	heap_start = (uint32_t) addr;
+
 	b = (block_t*)addr;
 	b->size = size - sizeof(block_t);
 	b->bsize = bsize;
@@ -110,7 +114,7 @@ kheap_alloc(kheap_t *heap, uint32_t size, int align, void* phys) {
 							uint32_t t = addr;
 							if(align)
 								t = align_addr;
-							*phys = (void*) virtual2phys(kpage_dir, (void*) t);
+							phys = (void*) virtual2phys(kpage_dir, (void*) t);
 						}
 
 						if (align)

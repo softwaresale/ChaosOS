@@ -2,7 +2,7 @@
 #define TTY_H 1
 
 // terminal constants
-#define VIDEO_MEM      0xB8000
+#define VIDEO_MEM      0xC0B8000
 #define ROWS           25
 #define COLUMNS        80
 

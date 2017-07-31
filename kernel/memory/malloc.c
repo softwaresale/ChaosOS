@@ -11,7 +11,7 @@ kheap_t kernel_heap;
 void
 malloc_init()
 {
-	extern const unsigned int end;
+	extern uint32_t end;
 	unsigned int end_addr = (unsigned int) &end;
 	kheap_init(&kernel_heap);
 	kheap_add_block(&kernel_heap, end_addr, 0x100000, 16);
@@ -45,7 +45,7 @@ void*
 calloc(uint32_t items, uint32_t size)
 {
 	void* ptr = malloc(items * size);
-    memset(ptr, 0, items * size);
+	memset(ptr, 0, items * size);
 	return ptr;
 }
 

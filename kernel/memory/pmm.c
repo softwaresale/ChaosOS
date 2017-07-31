@@ -9,6 +9,17 @@ uint8_t* mem_start;
 uint32_t total_blocks;
 uint32_t bitmap_size;
 
+static uint32_t
+__first_free_block()
+{
+        uint32_t i;
+        for (i = 0; i < total_blocks; i++){
+                if(!ISSET(i))
+                        return i;
+        }
+        return (uint32_t) -1;
+}
+
 void
 pmm_init(uint32_t mem_size)
 {
@@ -35,16 +46,5 @@ allocate_block()
 void
 free_block(uint32_t block)
 {
-        CLEARBIT(block);
-}
-
-static uint32_t
-__first_free_block()
-{
-        uint32_t i;
-        for (i = 0; i < total_blocks; i++){
-                if(!ISSET(i))
-                        return i;
-        }
-        return (uint32_t) -1;
+        CLRBIT(block);
 }

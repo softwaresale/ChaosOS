@@ -79,6 +79,8 @@ extern page_directory_t* TEMP_PAGE_DIRECTORY;
 
 extern page_directory_t* kpage_dir;
 
+extern uint32_t end;
+
 void* virtual2phys(page_directory_t*, void*);
 
 void* dumb_malloc(uint32_t, int);
