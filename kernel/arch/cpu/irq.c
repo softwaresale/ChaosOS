@@ -57,20 +57,20 @@ void irq_uninstall_handler(int irq)
 */
 void irq_remap(void)
 {
-    port_byte_put(0x20, 0x11); /* write ICW1 to PICM, we are gonna write commands to PICM */
-    port_byte_put(0xA0, 0x11); /* write ICW1 to PICS, we are gonna write commands to PICS */
+    outb(0x20, 0x11); /* write ICW1 to PICM, we are gonna write commands to PICM */
+    outb(0xA0, 0x11); /* write ICW1 to PICS, we are gonna write commands to PICS */
     
-    port_byte_put(0x21, 0x20); /* remap PICM to 0x20 (32 decimal) */
-    port_byte_put(0xA1, 0x28); /* remap PICS to 0x28 (40 decimal) */
+    outb(0x21, 0x20); /* remap PICM to 0x20 (32 decimal) */
+    outb(0xA1, 0x28); /* remap PICS to 0x28 (40 decimal) */
     
-    port_byte_put(0x21, 0x04); /* IRQ2 -> connection to slave */ 
-    port_byte_put(0xA1, 0x02);
+    outb(0x21, 0x04); /* IRQ2 -> connection to slave */ 
+    outb(0xA1, 0x02);
     
-    port_byte_put(0x21, 0x01); /* write ICW4 to PICM, we are gonna write commands to PICM */
-    port_byte_put(0xA1, 0x01); /* write ICW4 to PICS, we are gonna write commands to PICS */
+    outb(0x21, 0x01); /* write ICW4 to PICM, we are gonna write commands to PICM */
+    outb(0xA1, 0x01); /* write ICW4 to PICS, we are gonna write commands to PICS */
     
-    port_byte_put(0x21, 0x0); /* enable all IRQs on PICM */
-    port_byte_put(0xA1, 0x0); /* enable all IRQs on PICS */
+    outb(0x21, 0x0); /* enable all IRQs on PICM */
+    outb(0xA1, 0x0); /* enable all IRQs on PICS */
 }
 
 /* We first remap the interrupt controllers, and then we install
@@ -126,10 +126,10 @@ void irq_handler(struct regs *r)
     *  the slave controller */
     if (r->int_no >= 40)
     {
-        port_byte_put(0xA0, 0x20);
+        outb(0xA0, 0x20);
     }
 
     /* In either case, we need to send an EOI to the master
     *  interrupt controller too */
-    port_byte_put(0x20, 0x20);
+    outb(0x20, 0x20);
 }

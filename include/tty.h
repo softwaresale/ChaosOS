@@ -16,9 +16,9 @@
 #define DATA_REG       0x3d5
 
 // functions
-void cls();
-void printchar(const char ch);
-void print(const char* str);
-void init_tty();
+void tty_cls();
+void tty_printchar(const char ch);
+void tty_print(const char *str);
+void tty_init();
 
 #endif

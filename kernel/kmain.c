@@ -16,39 +16,53 @@
 void dummy_entry(){
 }
 
+static char *
+get_name(void);
+
 void kmain()
 {
 	init_tty(); // initate the terminal interface
-	print("TTY intiated\n");
+  printf("TTY ... [done]\n");
 
-	puts("Installing IDT...");
 	idt_install();
-	puts("IDT installed");
-	
-	puts("Installing ISR...");
+  printf("IDT ... [done]\n");
+
 	isr_install();
-	puts("ISR installed");
-	
-	puts("Installing IRQ...");
+  printf("ISR ... [done]\n");
+
 	irq_install();
-	puts("IRQ installed");
-	
-	puts("Installing keyboard...");
+  printf("IRQ .. [done]\n");
+
 	keyboard_install();
-	puts("Keyboard installed");
-	
-	puts("Initiating paging...");
+  printf("Keyboard ... [done]\n");
+
 	paging_init();
-	puts("Paging initilized");
-	
-	puts("Initilizing the heap...");
+  printf("Paging ... [done]\n");
+
 	malloc_init();
-	puts("Heap and memory allocation initilized");
+  printf("Heap ... [done]\n");
 
 	__asm__ __volatile__ ("sti");
 
 	puts("Core functionality installed");
 	puts("Welcome to ChaosOS");
-		
-	printf("This should be zero: --> %d\n", 1);	
+
+  char *msg = get_name();
+  printf("This is written by: %s\n", msg);
+}
+
+static char *
+get_name(void)
+{
+  char *msg = malloc(8);
+  msg[0] = 'C';
+  msg[1] = 'h';
+  msg[2] = 'a';
+  msg[3] = 'r';
+  msg[4] = 'l';
+  msg[5] = 'i';
+  msg[6] = 'e';
+  msg[7] = '\0';
+
+  return msg;
 }

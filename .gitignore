@@ -22,3 +22,4 @@ GTAGS
 GRTAGS
 chaos.iso
 kernel.elf
+.dir-locals.el

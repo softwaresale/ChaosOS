@@ -18,10 +18,10 @@ extern kheap_t kernel_heap;
 void
 malloc_init();
 
-void*
+void *
 malloc(uint32_t);
 
 void
-free(void* ptr);
+free(void *ptr);
 
 #endif // MALLOC_H

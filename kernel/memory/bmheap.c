@@ -40,21 +40,21 @@ kheap_add_block(kheap_t *heap, uintptr_t addr,
 	for (x = 0; x < bcnt; ++x) {
 			bm[x] = 5;
 	}
- 
+
 	b->lfb = bcnt - 1;
- 
+
 	b->used = bcnt;
- 
+
 	return 1;
 }
- 
-static uint8_t 
+
+static uint8_t
 kheap_get_nid(uint8_t a, uint8_t b) {
-	uint8_t	c;	
+	uint8_t	c;
 	for (c = a + 1; c == b || c == 0; ++c);
 	return c;
 }
- 
+
 void*
 kheap_alloc(kheap_t *heap, uint32_t size) {
 	block_t	 *b;
@@ -63,16 +63,16 @@ kheap_alloc(kheap_t *heap, uint32_t size) {
 	uint32_t  x, y, z;
 	uint32_t  bneed;
 	uint8_t	  nid;
- 
+
 	/* iterate blocks */
 	for (b = heap->fblock; b; b = b->next) {
 		/* check if block has enough room */
 		if (b->size - (b->used * b->bsize) >= size) {
- 
-			bcnt = b->size / b->bsize;		
+
+			bcnt = b->size / b->bsize;
 			bneed = (size / b->bsize) * b->bsize < size ? size / b->bsize + 1 : size / b->bsize;
-			bm = (uint8_t*)&b[1];
- 
+			bm = (uint8_t*) &b[1];
+
 			for (x = (b->lfb + 1 >= bcnt ? 0 : b->lfb + 1); x < b->lfb; ++x) {
 				/* just wrap around */
 				if (x >= bcnt) {

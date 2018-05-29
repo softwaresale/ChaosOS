@@ -29,19 +29,19 @@ kernel.elf: $(OBJ) $(ASMOBJ) $(ASOBJ)
 clean:
 	rm $(OBJ) $(ASMOBJ) kernel.elf
 
-iso: all
+iso: kernel.elf
 	cp kernel.elf boot
 	cp -r boot iso
 	genisoimage -R \
-		-b boot/grub/stage2_eltorito \
-		-no-emul-boot \
-		-boot-load-size 4 \
-		-A os \
-		-input-charset utf8 \
-		-quiet \
-		-boot-info-table \
-		-o chaos.iso \
-		iso
+	-b boot/grub/stage2_eltorito \
+	-no-emul-boot \
+	-boot-load-size 4 \
+	-A os \
+	-input-charset utf8 \
+	-quiet \
+	-boot-info-table \
+	-o chaos.iso \
+	iso
 
-run: iso
+run: chaos.iso
 	qemu-system-i386 -cdrom chaos.iso
