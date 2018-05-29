@@ -108,16 +108,16 @@ unsigned char kbdus_functkey[128] =
 };
 
 // Handle keyboard interupt
-void keyboard_handler(struct regs* r){
+void keyboard_handler(struct regs *r){
 
 	unsigned char scancode; // what is read, or what will be rather
 
 	// read the scancode
 	scancode = inb(0x60);
-	
+
 	// if the top bit is set, then it has been released
 	if (scancode & 0x80){
-	
+
 		// left shift is 0xAA, right is 0xB6
 		if (!(scancode ^ 0xAA) || !(scancode ^ 0xB6)){
 			if (function_key == 1)
@@ -125,9 +125,9 @@ void keyboard_handler(struct regs* r){
 			else
 				function_key = 1;
 		}
-	
+
 	} else {
-		
+
 		// 0x3A is the caps lock key
 		if (!(scancode ^ 0x3A)){
 			if (function_key == 1){
@@ -136,7 +136,7 @@ void keyboard_handler(struct regs* r){
 			} else
 				function_key = 1;
 		}
-		
+
 		// left shift -> 0x2A ; right shift -> 0x36
 		if (!(scancode ^ 0x2A) || !(scancode ^ 0x36)){
 			if (function_key == 1)
@@ -146,9 +146,9 @@ void keyboard_handler(struct regs* r){
 		}
 
 		if (function_key == 1)
-			printchar(kbdus_functkey[scancode]); // print the char
+			tty_printchar(kbdus_functkey[scancode]); // print the char
 		else
-			printchar(kbdus[scancode]); // print the char
+			tty_printchar(kbdus[scancode]); // print the char
 
 	}
 	

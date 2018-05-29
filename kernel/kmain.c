@@ -21,7 +21,7 @@ get_name(void);
 
 void kmain()
 {
-	init_tty(); // initate the terminal interface
+	tty_init(); // initate the terminal interface
   printf("TTY ... [done]\n");
 
 	idt_install();
@@ -44,8 +44,8 @@ void kmain()
 
 	__asm__ __volatile__ ("sti");
 
-	puts("Core functionality installed");
-	puts("Welcome to ChaosOS");
+	printf("Core functionality installed\n");
+	printf("Welcome to ChaosOS\n");
 
   char *msg = get_name();
   printf("This is written by: %s\n", msg);

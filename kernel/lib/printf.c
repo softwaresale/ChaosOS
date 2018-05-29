@@ -135,7 +135,7 @@ static void vsprintf(char * str, void (*putchar)(const char), const char * forma
 void printf(const char * s, ...) {
     va_list ap;
     va_start(ap, s);
-    vsprintf(NULL, printchar, s, ap);
+    vsprintf(NULL, tty_printchar, s, ap);
     va_end(ap);
 }
 

@@ -2,6 +2,7 @@
 #include <low_io.h>
 #include <idt.h>
 #include <tty.h>
+#include <stdio.h>
 
 /* This is a simple string array. It contains the message that
 *  corresponds to each and every exception. We get the correct
@@ -133,8 +134,8 @@ void fault_handler(struct regs *r)
     {
         /* Display the description for the Exception that occurred.
            we will simply halt the system using an infinite loop */
-        print(exception_messages[r->int_no]);
-        print("\nException. System Halted!\n");
-        for (;;);
+      printf("%s\n", exception_messages[r->int_no]);
+      printf("\nException. System Halted!\n");
+      for (;;);
     }
 }
